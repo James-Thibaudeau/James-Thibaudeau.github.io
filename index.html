@@ -1,14 +1,223 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset='utf-8'>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.css" integrity="sha256-aan9tQnm7lVach/6JxYyrQRlheajRD+UBDwwWo3tAHQ=" crossorigin="anonymous" />
-    <link href="css/site.css" rel="stylesheet" type="text/css">
-    <script src="https://kit.fontawesome.com/4400d2e60a.js"></script>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script src="js/compiled/app.js"></script>
-    <script>xogos.core.init();</script>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hugs Help</title>
+  <meta name="description" content="Sick of AI slop? Hugs help. Not sick of it yet? Here are some AI-made games to play.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🫂</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,700;9..144,900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fbf5ec;
+      --ink: #2b2118;
+      --muted: #6f6152;
+      --accent: #d9534f;
+      --accent-soft: #f6d9cf;
+      --card: #ffffff;
+      --line: #eadfd0;
+      --shadow: 0 1px 2px rgba(43, 33, 24, .06), 0 8px 24px rgba(43, 33, 24, .08);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #1c1713;
+        --ink: #f3ebe1;
+        --muted: #b4a594;
+        --accent: #ff7a6e;
+        --accent-soft: #3a2621;
+        --card: #26201b;
+        --line: #3a3129;
+        --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 8px 24px rgba(0, 0, 0, .35);
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 17px/1.6 Inter, system-ui, -apple-system, sans-serif;
+    }
+    main {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 72px 20px 48px;
+    }
+
+    /* Hugs */
+    .hero { text-align: center; }
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+    h1 {
+      margin: 0;
+      font-family: Fraunces, Georgia, serif;
+      font-weight: 900;
+      font-size: clamp(3.2rem, 13vw, 6rem);
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    h1 span { color: var(--accent); }
+    .hug-list {
+      list-style: none;
+      margin: 32px auto 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+    .hug-list li {
+      background: var(--accent-soft);
+      border-radius: 999px;
+      padding: 8px 18px;
+      font-weight: 500;
+    }
+    .consent {
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: .95rem;
+    }
+
+    /* The turn */
+    .turn {
+      margin: 88px 0 28px;
+      text-align: center;
+    }
+    .turn hr {
+      width: 64px;
+      margin: 0 auto 28px;
+      border: 0;
+      border-top: 2px dashed var(--line);
+    }
+    h2 {
+      margin: 0 0 6px;
+      font-family: Fraunces, Georgia, serif;
+      font-weight: 700;
+      font-size: clamp(1.6rem, 5vw, 2.1rem);
+      line-height: 1.2;
+    }
+    .turn p { margin: 0; color: var(--muted); }
+
+    /* Games */
+    .games {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .game {
+      display: flex;
+      flex-direction: column;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      color: inherit;
+      text-decoration: none;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .game:hover, .game:focus-visible {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow), 0 0 0 2px var(--accent);
+      outline: none;
+    }
+    .game .icon { font-size: 2.2rem; line-height: 1; }
+    .game h3 {
+      margin: 14px 0 8px;
+      font-family: Fraunces, Georgia, serif;
+      font-size: 1.45rem;
+      line-height: 1.2;
+    }
+    .game p { margin: 0 0 16px; color: var(--muted); font-size: .98rem; }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 0 0 20px;
+      padding: 0;
+      list-style: none;
+    }
+    .tags li {
+      font-size: .8rem;
+      font-weight: 500;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 2px 10px;
+      color: var(--muted);
+    }
+    .play {
+      margin-top: auto;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    footer {
+      margin-top: 72px;
+      text-align: center;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .game { transition: none; }
+      .game:hover, .game:focus-visible { transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="hero">
+      <p class="eyebrow">Sick of AI slop?</p>
+      <h1>Hugs <span>help.</span></h1>
+      <ul class="hug-list" aria-label="Who to hug">
+        <li>Hug your loved ones</li>
+        <li>Hug your friends</li>
+        <li>Hug strangers*</li>
+      </ul>
+      <p class="consent">*with consent. Always ask first.</p>
+    </section>
+
+    <section class="turn">
+      <hr>
+      <h2>Not sick of it yet?</h2>
+      <p>Then here are some AI-made games to play.</p>
+    </section>
+
+    <section class="games" aria-label="Games">
+      <a class="game" href="/tidewake/">
+        <span class="icon" aria-hidden="true">⛵</span>
+        <h3>Tidewake</h3>
+        <p>A cel-shaded, open-world sailing game. Explore more than 100 islands, chart the seas, haul up sunken treasure and follow your grandfather's lost journals. There's no combat, but rocks, reefs and storms will happily wreck you.</p>
+        <ul class="tags">
+          <li>3D</li>
+          <li>Open world</li>
+          <li>Desktop &amp; mobile</li>
+        </ul>
+        <span class="play">Set sail →</span>
+      </a>
+
+      <a class="game" href="/game-7/">
+        <span class="icon" aria-hidden="true">🏒</span>
+        <h3>Game 7: The Road to the Cup</h3>
+        <p>A retro hockey deckbuilder set in the 1986 playoffs. Pick a club, play the key shifts and build your deck through four best-of-7 rounds. Injuries, fights, penalties and superstitions all come into play. Lose a series and your run is over.</p>
+        <ul class="tags">
+          <li>Deckbuilder</li>
+          <li>Hockey</li>
+          <li>Roguelike</li>
+        </ul>
+        <span class="play">Drop the puck →</span>
+      </a>
+    </section>
+
+    <footer>
+      <p>Made by a human, with a lot of help from AI. Go hug someone.</p>
+    </footer>
+  </main>
+</body>
 </html>
